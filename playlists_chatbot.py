@@ -21,6 +21,7 @@ def get_link(json_response,token):
 	for i,j in enumerate(json_response['tracks']):
 		uris.append(j['uri'])
 
+
 	endpoint_url = f"https://api.spotify.com/v1/users/{user_id}/playlists"
 
 	request_body = json.dumps({"name": "Playlist for studying",
@@ -106,18 +107,18 @@ def thanks():
 	thanks = ['Обращайся!', "Не за что.", "Всегда пожалуйста!", "Надеюсь, я тебе помог!"]
 	return random.choice(thanks)
 
-def hope():
+def playlist():
 	hello = ['Надеюсь, тебе понравится!', "Приятного прослушивания :)", "А вот и плейлист! Наслаждайся."]
 	return random.choice(hello)
 
 def undefined():
-	undefined = ['Не понимаю тебя :( ', "О чем ты? "]
-	return random.choice(undefined) + " Чтобы получить плейлист, поздоровайся со мной."
+	undefined = ['Не понимаю тебя :( ', "Извини, я не понял, что ты хочешь. "]
+	return random.choice(undefined) + ' Чтобы получить плейлист, напиши "привет".'
 
 def intent(text):
     text = text.lower()
     
-    for word in ['прив', 'здравствуй', 'добр', 'hi', 'хай']:
+    for word in ['прив', 'здравствуй', 'добр', 'hi', 'хай','давай','бонжур']:
         if word in text:
             return 'hello'
         
@@ -146,7 +147,7 @@ def send_intent(text):
 
 @bot.message_handler(commands=['start'])
 def welcome_start(message):
-    bot.send_message(message.chat.id, 'Привет! Я могу сгенерировать для тебя плейлист для учебы!\nP.S. Я дам тебе ссылку на созданный плейлист на платформе Spotify :)\nПроверь меня.')
+    bot.send_message(message.chat.id, 'Привет! Я могу сгенерировать для тебя плейлист для учебы!\nP.S. Я дам тебе ссылку на созданный плейлист на платформе Spotify :)\nНапиши "Привет", чтобы начать.')
  
 # Тут работаем с командой help
 @bot.message_handler(commands=['help'])
@@ -197,15 +198,16 @@ def callback_worker(call):
 	if call.data == "relax": 
 		msg = relaxation()
 		bot.send_message(call.message.chat.id, msg)
-		bot.send_message(call.message.chat.id, hope())
+		bot.send_message(call.message.chat.id, playlist())
 	if call.data == "concentrate":
 		msg = concentration()
 		bot.send_message(call.message.chat.id, msg)
-		bot.send_message(call.message.chat.id, hope())
+		bot.send_message(call.message.chat.id, playlist())
 	if call.data == "engage":
 		msg = engagement()
 		bot.send_message(call.message.chat.id, msg)
-		bot.send_message(call.message.chat.id, hope())
+		bot.send_message(call.message.chat.id, playlist())
 
 
 bot.polling(none_stop=True, interval=0)
+
